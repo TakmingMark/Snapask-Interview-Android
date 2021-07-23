@@ -1,4 +1,4 @@
-package com.kono.snapask_interview_android
+package com.mark.snapask_interview_android
 
 import org.junit.Test
 
