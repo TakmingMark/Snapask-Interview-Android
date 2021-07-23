@@ -1,2 +1,3 @@
 rootProject.name = "Snapask_Interview_Android"
 include ':app'
+include ':sdk'
