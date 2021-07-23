@@ -1,0 +1,117 @@
+ext {
+
+    android = [
+            compileSdkVersion: 30,
+            applicationId    : "com.snapask.interview_android",
+            minSdkVersion    : 21,
+            targetSdkVersion : 30,
+
+            // app
+            versionCode      : 1,
+            versionName      : "0.0.1",
+
+            // Kono sdk
+            KonoSdkLibraryId  : "com.snapask.sdk",
+            KonoSdkVersionCode: 1,
+            KonoSdkVersionName: "0.0.1",
+    ]
+
+    version = [
+            // Base
+            androidxCoreVersion           : "1.5.0",
+            androidxAccompatVersion       : "1.3.0",
+            materialVersion               : "1.3.0",
+            androidConstraintlayoutVersion: "2.0.4",
+            junitVersion                  : "4.13.2",
+            androidxExtVersion            : "1.1.2",
+            androidxEspressoVersion       : "3.3.0",
+
+            // Others
+            androidxLifecycleVersion      : "2.3.1",
+            androidxNavigationVersion     : "2.3.5",
+            androidxFragmentVersion       : "1.3.4",
+            androidxRecyclerViewVersion   : "1.2.0",
+            androidXAnnotationsVersion    : "1.2.0",
+            rxJava3Version                : "3.0.0",
+            koinVersion                   : "3.0.2",
+            glideVersion                  : "4.12.0",
+            retrofitVersion               : "2.9.0",
+            okhttp3Version                : "4.2.0"
+    ]
+
+    dependencies = [
+            // Base
+            "androidxCoreKtx"              : "androidx.core:core-ktx:${version["androidxCoreVersion"]}",
+            "androidxAppcompat"            : "androidx.appcompat:appcompat:${version["androidxAccompatVersion"]}",
+            "material"                     : "com.google.android.material:material:${version["materialVersion"]}",
+            "androidxConstraintlayout"     : "androidx.constraintlayout:constraintlayout:${version["androidConstraintlayoutVersion"]}",
+            "junit"                        : "junit:junit:${version["junitVersion"]}",
+            "androidxJunit"                : "androidx.test.ext:junit:${version["androidxExtVersion"]}",
+            "androidxEspressoCore"         : "androidx.test.espresso:espresso-core:${version["androidxEspressoVersion"]}",
+
+            // LifeCycle
+            "lifecycleViewModelKtx"        : "androidx.lifecycle:lifecycle-viewmodel-ktx:${version["androidxLifecycleVersion"]}",
+            "lifecyclerLivedataKtx"        : "androidx.lifecycle:lifecycle-livedata-ktx:${version["androidxLifecycleVersion"]}",
+            "lifecycleRuntimeKtx"          : "androidx.lifecycle:lifecycle-runtime-ktx:${version["androidxLifecycleVersion"]}",
+            "lifecycleViewModelSavedstate" : "androidx.lifecycle:lifecycle-viewmodel-savedstate:${version["androidxLifecycleVersion"]}",
+            //For Java7
+            "lifecycleCompiler"            : "androidx.lifecycle:lifecycle-compiler:${version["androidxLifecycleVersion"]}",
+            //For Java8
+            "lifecycleCommonJava8"         : "androidx.lifecycle:lifecycle-common-java8:${version["androidxLifecycleVersion"]}",
+
+
+            // Architecture components
+            "androidxNavigationFragmentKtx": "androidx.navigation:navigation-fragment-ktx:${version["androidxNavigationVersion"]}",
+            "androidxNavigationUiKtx"      : "androidx.navigation:navigation-ui-ktx:${version["androidxNavigationVersion"]}",
+            "androidxFragment"             : "androidx.fragment:fragment:${version["androidxFragmentVersion"]}",
+            "androidxFragmentKtx"          : "androidx.fragment:fragment-ktx:${version["androidxFragmentVersion"]}",
+            "addroidxRecyclerview"         : "androidx.recyclerview:recyclerview:${version["androidxRecyclerViewVersion"]}",
+            "androidXAnnotations"          : "androidx.annotation:annotation:${version["androidXAnnotationsVersion"]}",
+
+            // RxJava3
+            "rxandroid3"                   : "io.reactivex.rxjava3:rxandroid:${version["rxJava3Version"]}",
+            "rxjava3"                      : "io.reactivex.rxjava3:rxjava:${version["rxJava3Version"]}",
+
+            // DI
+            "koinAndroid"                  : "io.insert-koin:koin-android:${version["koinVersion"]}",
+            "koinAndroidExt"               : "io.insert-koin:koin-android-ext:${version["koinVersion"]}",
+
+            // Db observer
+            "debugDb"                      : "com.amitshekhar.android:debug-db:1.0.6",
+
+            // Debug
+            "timber"                       : "com.jakewharton.timber:timber:4.7.1",
+
+            // Image tools
+            "glide"                        : "com.github.bumptech.glide:glide:${version["glideVersion"]}",
+            "glideCompiler"                : "com.github.bumptech.glide:compiler:${version["glideVersion"]}",
+
+            // Parse Json
+            "gson"                         : "com.google.code.gson:gson:2.8.6",
+
+            // Android permission
+            "rxPermissions"                : "com.github.tbruyelle:rxpermissions:0.12",
+
+            // API request
+            "retrofit2"                     : "com.squareup.retrofit2:retrofit:${version["retrofitVersion"]}",
+            "retrofit2ConverterGson"        : "com.squareup.retrofit2:converter-gson:${version["retrofitVersion"]}",
+            "retrofit2AdapterRxjav3"        : "com.squareup.retrofit2:adapter-rxjava3:${version["retrofitVersion"]}",
+            "okhttp3"                       : "com.squareup.okhttp3:okhttp:${version["okhttp3Version"]}",
+            "okhttp3LoggingInterceptor"     : "com.squareup.okhttp3:logging-interceptor:${version["okhttp3Version"]}",
+    ]
+}
+
+ext.getDate = {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
+}
+
+ext.getGitHash = {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}

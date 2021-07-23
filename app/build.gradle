@@ -1,20 +1,23 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        applicationId "com.kono.snapask_interview_android"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        applicationId  rootProject.ext.android["applicationId"]
+        minSdkVersion  rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion  rootProject.ext.android["targetSdkVersion"]
+        versionCode  rootProject.ext.android["versionCode"]
+        versionName  rootProject.ext.android["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", applicationId + "-" + versionName + "-" + getDate() + "-" + getGitHash())
+        buildConfigField("String", "GIT_HASH", "\"${getGitHash()}\"")
+        buildConfigField("String", "BUILD_DATE", "\"${getDate()}\"")
     }
 
     buildTypes {
@@ -30,16 +33,55 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
 }
 
 dependencies {
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // Base
+    implementation rootProject.ext.dependencies.androidxCoreKtx
+    implementation rootProject.ext.dependencies.androidxAppcompat
+    implementation rootProject.ext.dependencies.material
+    implementation rootProject.ext.dependencies.androidxConstraintlayout
+    implementation rootProject.ext.dependencies.junit
+    implementation rootProject.ext.dependencies.androidxJunit
+    implementation rootProject.ext.dependencies.androidxEspressoCore
+
+    // LifeCycle
+    implementation rootProject.ext.dependencies.lifecycleViewModelKtx
+    implementation rootProject.ext.dependencies.lifecyclerLivedataKtx
+    implementation rootProject.ext.dependencies.lifecycleRuntimeKtx
+    implementation rootProject.ext.dependencies.lifecycleViewModelSavedstate
+    implementation rootProject.ext.dependencies.lifecycleCommonJava8
+
+    // Architecture components
+    implementation rootProject.ext.dependencies.androidxNavigationFragmentKtx
+    implementation rootProject.ext.dependencies.androidxNavigationUiKtx
+    implementation rootProject.ext.dependencies.androidxFragment
+    implementation rootProject.ext.dependencies.androidxFragmentKtx
+    implementation rootProject.ext.dependencies.addroidxRecyclerview
+    implementation rootProject.ext.dependencies.androidXAnnotations
+
+    // RxJava3
+    implementation rootProject.ext.dependencies.rxandroid3
+    implementation rootProject.ext.dependencies.rxjava3
+
+    // DI
+    implementation rootProject.ext.dependencies.koinAndroid
+    implementation rootProject.ext.dependencies.koinAndroidExt
+
+    //Debug
+    implementation rootProject.ext.dependencies.timber
+
+    // Image tools
+    implementation rootProject.ext.dependencies.glide
+    implementation rootProject.ext.dependencies.glideCompiler
+
+    // Parse Json
+    implementation rootProject.ext.dependencies.gson
 }
