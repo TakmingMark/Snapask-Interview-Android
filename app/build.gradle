@@ -43,6 +43,8 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    implementation project(path: ':sdk')
+
     // Base
     implementation rootProject.ext.dependencies.androidxCoreKtx
     implementation rootProject.ext.dependencies.androidxAppcompat
@@ -84,4 +86,12 @@ dependencies {
 
     // Parse Json
     implementation rootProject.ext.dependencies.gson
+
+    // API request
+    implementation rootProject.ext.dependencies.retrofit2
+    implementation rootProject.ext.dependencies.retrofit2ConverterGson
+    implementation rootProject.ext.dependencies.retrofit2AdapterRxjav3
+    implementation rootProject.ext.dependencies.okhttp3
+    implementation rootProject.ext.dependencies.okhttp3LoggingInterceptor
+
 }

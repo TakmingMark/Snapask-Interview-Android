@@ -10,10 +10,10 @@ ext {
             versionCode      : 1,
             versionName      : "0.0.1",
 
-            // Kono sdk
-            KonoSdkLibraryId  : "com.snapask.sdk",
-            KonoSdkVersionCode: 1,
-            KonoSdkVersionName: "0.0.1",
+            // sdk
+            sdkLibraryId  : "com.snapask.sdk",
+            sdkVersionCode: 1,
+            sdkVersionName: "0.0.1",
     ]
 
     version = [
