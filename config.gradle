@@ -98,6 +98,10 @@ ext {
             "retrofit2AdapterRxjav3"        : "com.squareup.retrofit2:adapter-rxjava3:${version["retrofitVersion"]}",
             "okhttp3"                       : "com.squareup.okhttp3:okhttp:${version["okhttp3Version"]}",
             "okhttp3LoggingInterceptor"     : "com.squareup.okhttp3:logging-interceptor:${version["okhttp3Version"]}",
+
+            //Paging
+            "paging"                        : "androidx.paging:paging-runtime-ktx:3.0.1",
+            "pagingRxJava3"                 : "androidx.paging:paging-rxjava3:3.0.1"
     ]
 }
 

@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
@@ -13,19 +15,23 @@ import com.snapask.sdk.data.User
 
 
 class UserAdapter :
-    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+    PagingDataAdapter<User, UserAdapter.ViewHolder>(userComparator) {
+    companion object {
+        private val userComparator = object : DiffUtil.ItemCallback<User>() {
+            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+                // Id is unique.
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
     private var context: Context? = null
-    private val items = ArrayList<User>()
+    private var realItemCount=0
     private var currentType = UserType.DETAIL
-
-    fun addItems(users: List<User>) {
-        items.addAll(users.sortedBy { user ->
-            user.id
-        })
-
-        notifyItemRangeChanged(items.size - users.size, users.size)
-    }
 
     fun changeType() {
         currentType = if (currentType == UserType.DETAIL)
@@ -48,25 +54,28 @@ class UserAdapter :
 
         when (getItemViewType(position)) {
             UserType.DETAIL.ordinal -> {
-                val item = items[position]
+                val item = getItem(position) ?: return
                 holder.bind(item)
             }
             UserType.SIMPLE.ordinal -> {
-                val realPosition = position * 4
+                val realPosition = position*4
 
-                when (items.size - realPosition) {
-                    1 -> holder.bind(items[realPosition])
-                    2 -> holder.bind(items[realPosition], items[realPosition + 1])
+                when (realItemCount - realPosition) {
+                    1 -> holder.bind(getItem(realPosition))
+                    2 -> holder.bind(
+                        getItem(realPosition),
+                        getItem(realPosition + 1)
+                    )
                     3 -> holder.bind(
-                        items[realPosition],
-                        items[realPosition + 1],
-                        items[realPosition + 2]
+                        getItem(realPosition),
+                        getItem(realPosition + 1),
+                        getItem(realPosition + 2)
                     )
                     else -> holder.bind(
-                        items[realPosition],
-                        items[realPosition + 1],
-                        items[realPosition + 2],
-                        items[realPosition + 3]
+                        getItem(realPosition),
+                        getItem(realPosition + 1),
+                        getItem(realPosition + 2),
+                        getItem(realPosition + 3)
                     )
                 }
             }
@@ -74,39 +83,42 @@ class UserAdapter :
     }
 
     override fun getItemCount(): Int {
+        realItemCount=super.getItemCount()
         return if (currentType == UserType.DETAIL)
-            items.size
+            realItemCount
         else
-            items.size / 4 + if (items.size % 4 > 0) 1 else 0
+            realItemCount / 4 + if (realItemCount % 4 > 0) 1 else 0
     }
 
     override fun getItemViewType(position: Int): Int {
         return currentType.ordinal
     }
 
-    class ViewHolder(val viewBinding: ViewBinding, val userType: Int, val context: Context) :
+    class ViewHolder(private val viewBinding: ViewBinding, private val userType: Int, private val context: Context) :
         RecyclerView.ViewHolder(viewBinding.root) {
-        fun bind(data1: User, data2: User, data3: User, data4: User) {
+        fun bind(data1: User?, data2: User?, data3: User?, data4: User?) {
             bind(data1, data2, data3)
             bind(data4, viewBinding, UserTypeData.DATA4)
         }
 
-        fun bind(data1: User, data2: User, data3: User) {
+        fun bind(data1: User?, data2: User?, data3: User?) {
             bind(data1, data2)
             bind(data3, viewBinding, UserTypeData.DATA3)
         }
 
-        fun bind(data1: User, data2: User) {
+        fun bind(data1: User?, data2: User?) {
             bind(data1)
             bind(data2, viewBinding, UserTypeData.DATA2)
         }
 
-        fun bind(data1: User) {
+        fun bind(data1: User?) {
             bind(data1, viewBinding, UserTypeData.DATA1)
         }
 
 
-        private fun bind(data: User, viewBinding: ViewBinding, userTypeData: UserTypeData) {
+        private fun bind(data: User?, viewBinding: ViewBinding, userTypeData: UserTypeData) {
+            if (data == null) return
+
             when (userType) {
                 UserType.DETAIL.ordinal -> {
                     val viewBinding = viewBinding as AdapterUserType1Binding

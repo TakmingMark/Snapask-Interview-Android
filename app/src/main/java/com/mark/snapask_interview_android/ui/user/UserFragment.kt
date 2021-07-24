@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mark.snapask_interview_android.databinding.FragmentUserBinding
 import com.mark.snapask_interview_android.ui.user.recyclerview.UserAdapter
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -37,7 +40,6 @@ class UserFragment:Fragment() {
         initViews()
         initViewListener()
         initLiveDataListener()
-        initData()
     }
 
     private fun initViews() {
@@ -58,16 +60,10 @@ class UserFragment:Fragment() {
     }
 
     private fun initLiveDataListener() {
-        viewModel.callUsersDataFailure.observe(viewLifecycleOwner, { error ->
-            Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
-        })
-
-        viewModel.updateUsersData.observe(viewLifecycleOwner, { users ->
-            userAdapter.addItems(users)
-        })
-    }
-
-    private fun initData() {
-        viewModel.callUsersData()
+        lifecycleScope.launch {
+            viewModel.flow.collectLatest { pagingData ->
+                userAdapter.submitData(pagingData)
+            }
+        }
     }
 }

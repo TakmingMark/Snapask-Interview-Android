@@ -94,4 +94,7 @@ dependencies {
     implementation rootProject.ext.dependencies.okhttp3
     implementation rootProject.ext.dependencies.okhttp3LoggingInterceptor
 
+    //Paging
+    implementation rootProject.ext.dependencies.paging
+    implementation rootProject.ext.dependencies.pagingRxJava3
 }
