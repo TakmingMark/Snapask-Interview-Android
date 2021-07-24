@@ -1,10 +1,9 @@
 package com.snapask.sdk.retrofit
 
-import com.snapask.sdk.data.Users
+import com.snapask.sdk.data.User
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SdkRetrofitService {
@@ -20,5 +19,5 @@ interface SdkRetrofitService {
         @Query(QUERY_SINCE_ID)
         sinceId:Int,
         @Query(QUERY_PER_PAGE)
-        perPage:Int=DEFAULT_PER_PAGE):Single<Response<Users>>
+        perPage:Int=DEFAULT_PER_PAGE):Single<Response<List<User>>>
 }

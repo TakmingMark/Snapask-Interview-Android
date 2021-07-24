@@ -2,7 +2,7 @@ package com.snapask.sdk.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Users(
+data class User(
     @SerializedName("avatar_url")
     val avatarUrl: String,
     val bio: String,
