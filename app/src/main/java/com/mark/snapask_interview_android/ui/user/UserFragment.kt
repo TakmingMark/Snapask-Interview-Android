@@ -35,6 +35,7 @@ class UserFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        initViewListener()
         initLiveDataListener()
         initData()
     }
@@ -48,6 +49,12 @@ class UserFragment:Fragment() {
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.userRecyclerView.layoutManager = linearLayoutManager
         binding.userRecyclerView.adapter = userAdapter
+    }
+
+    private fun initViewListener(){
+        binding.button.setOnClickListener {
+            userAdapter.changeType()
+        }
     }
 
     private fun initLiveDataListener() {

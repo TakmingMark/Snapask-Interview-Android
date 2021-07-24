@@ -54,7 +54,7 @@ class UserAdapter :
             UserType.SIMPLE.ordinal -> {
                 val realPosition = position * 4
 
-                when (items.size - (realPosition + 1)) {
+                when (items.size - realPosition) {
                     1 -> holder.bind(items[realPosition])
                     2 -> holder.bind(items[realPosition], items[realPosition + 1])
                     3 -> holder.bind(
@@ -77,7 +77,7 @@ class UserAdapter :
         return if (currentType == UserType.DETAIL)
             items.size
         else
-            items.size / 3 + if (items.size % 3 > 0) 1 else 0
+            items.size / 4 + if (items.size % 4 > 0) 1 else 0
     }
 
     override fun getItemViewType(position: Int): Int {
